@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAGASA Maps Archive - Dashboard</title>
+
+    <!-- Link to global styles -->
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="w3-sidebar">
+    <div class="sidebar-content">
+        <a href="../Saim.html" class="sidebar-item">
+            <img src="../Symbols/HOME.png" alt="Home" class="sidebar-logo">
+            <span class="sidebar-text">HOME</span>
+        </a>
+        <a href="Dashboard_Nav.html" class="sidebar-item">
+            <img src="../Symbols/DASHBOARD.png" alt="Dashboard" class="sidebar-logo">
+            <span class="sidebar-text">MILLIMETETER</span>
+        </a>
+        <a href="Percentage_Nav.html" class="sidebar-item">
+            <img src="../Symbols/PERCENT.png" alt="Dashboard" class="sidebar-logo">
+            <span class="sidebar-text">PERCENTAGE</span>
+        </a>
+        <!-- Year Label (Acts as a Header for Subcategories) -->
+        <div class="sidebar-item">
+            <img src="../Symbols/RAIN.png" alt="Rainfall Icon" class="sidebar-logo">
+            <span class="sidebar-text2">RAINFALL SUMMARY TYPE</span> 
+        </div>        
+        <div class="year-dropdown">
+            <a href="../NAV/Monthly_Nav.html" class="year-option">Monthly</a>
+            <a href="../NAV/Quarterly_Nav.html" class="year-option">Quarterly</a>
+            <a href="../NAV/Seasonal_Nav.html" class="year-option">Seasonal</a>
+            <a href="../NAV/Annual_Nav.html" class="year-option">Annual</a>
+        </div>
+    </div>
+</div>
+
+<!-- Page Content -->
+<div class="w3-main">
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="../LOGO.jpg" alt="PAGASA Logo" class="logo-img">
+        </div>
+    </header>
+
+    <!-- Content and Dropdown Container -->
+    <div class="content-container">
+        <!-- Actual Rainfall text -->
+        <div class="rainfall-content">
+            <b>Actual Rainfall in Percentage for JANUARY to DECEMBER.</b>
+        </div>
+
+
+<!-- Year Dropdown -->
+<div class="dropdown-container">
+    <select id="YEAR" onchange="updateGallery()">
+        <option value="2000">2000</option>
+        <option value="2001" selected>2001</option> <!-- Default year -->
+        <option value="2002">2002</option>
+        <option value="2003">2003</option>
+        <option value="2004">2004</option>
+        <option value="2005">2005</option>
+        <option value="2006">2006</option>
+        <option value="2007">2007</option>
+        <option value="2008">2008</option>
+        <option value="2009">2009</option>
+        <option value="2010">2010</option>
+        <option value="2011">2011</option>
+        <option value="2012">2012</option>
+        <option value="2013">2013</option>
+        <option value="2014">2014</option>
+        <option value="2015">2015</option>
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+    </select>
+</div>
+
+<!-- Gallery Section -->
+<div class="gallery-container">
+    <div class="gallery-box" id="gallery">
+        <!-- Images will be inserted dynamically -->
+    </div>
+</div>
+
+
+
+    <!-- Philippine Standard Time -->
+    <div class="pst-time">
+        <div class="pst-box">
+            <b>Philippine Standard Time</b>
+            <p id="time"></p>
+            <p id="date"></p>
+        </div>
+    </div>
+</div>
+
+<!-- Link to global JavaScript -->
+<script src="../script.js"></script>
+</body>
+</html>

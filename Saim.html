@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAGASA Maps Archive - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="w3-sidebar">
+    <div class="sidebar-content">
+        <a href="Saim.html" class="sidebar-item">
+            <img src="Symbols/HOME.png" alt="Home" class="sidebar-logo">
+            <span class="sidebar-text">HOME</span>
+        </a>
+        <a href="NAV/Dashboard_Nav.html" class="sidebar-item">
+            <img src="Symbols/DASHBOARD.png" alt="Dashboard" class="sidebar-logo">
+            <span class="sidebar-text">MILLIMETETER</span>
+        </a>
+        <a href="NAV/Percentage_Nav.html" class="sidebar-item">
+            <img src="Symbols/PERCENT.png" alt="Percentage" class="sidebar-logo">
+            <span class="sidebar-text">PERCENTAGE</span>
+        </a>
+
+        <!-- Year Label (Acts as a Header for Subcategories) -->
+        <div class="sidebar-item">
+            <img src="Symbols/RAIN.png" alt="Rainfall Icon" class="sidebar-logo">
+            <span class="sidebar-text2">RAINFALL SUMMARY TYPE</span> 
+        </div>        
+        <div class="year-dropdown">
+            <a href="NAV/Monthly_Nav.html" class="year-option">Monthly</a>
+            <a href="NAV/Quarterly_Nav.html" class="year-option">Quarterly</a>
+            <a href="NAV/Seasonal_Nav.html" class="year-option">Seasonal</a>
+            <a href="NAV/Annual_Nav.html" class="year-option">Annual</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Page Content -->
+<div class="w3-main">
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="LOGO.jpg" alt="PAGASA Logo" class="logo-img">
+        </div>
+    </header>
+
+    <!-- Home Content -->
+    <div class="content-container">
+        <img src="Symbols/Welcome_Pic.png" alt="Welcome" class="home-pic">
+    </div>
+
+    <!-- Philippine Standard Time -->
+    <div class="pst-time">
+        <div class="pst-box">
+            <b>Philippine Standard Time</b>
+            <p id="time"></p>
+            <p id="date"></p>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

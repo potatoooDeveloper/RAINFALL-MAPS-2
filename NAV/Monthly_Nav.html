@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Rainfall Summary</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="w3-sidebar">
+    <div class="sidebar-content">
+        <a href="../Saim.html" class="sidebar-item">
+            <img src="../Symbols/HOME.png" alt="Home" class="sidebar-logo">
+            <span class="sidebar-text">HOME</span>
+        </a>
+        <a href="Dashboard_Nav.html" class="sidebar-item">
+            <img src="../Symbols/DASHBOARD.png" alt="Dashboard" class="sidebar-logo">
+            <span class="sidebar-text">MILLIMETER</span>
+        </a>
+        <a href="Percentage_Nav.html" class="sidebar-item">
+            <img src="../Symbols/PERCENT.png" alt="Dashboard" class="sidebar-logo">
+            <span class="sidebar-text">PERCENTAGE</span>
+        </a>
+        <!-- Rainfall Summary Type -->
+        <div class="sidebar-item">
+            <img src="../Symbols/RAIN.png" alt="Rainfall Icon" class="sidebar-logo">
+            <span class="sidebar-text2">RAINFALL SUMMARY TYPE</span> 
+        </div>        
+        <div class="year-dropdown">
+            <a href="../NAV/Monthly_Nav.html" class="year-option">Monthly</a>
+            <a href="../NAV/Quarterly_Nav.html" class="year-option">Quarterly</a>
+            <a href="../NAV/Seasonal_Nav.html" class="year-option">Seasonal</a>
+            <a href="../NAV/Annual_Nav.html" class="year-option">Annual</a>
+        </div>
+    </div>
+</div>
+
+<!-- Page Content -->
+<div class="w3-main">
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="../LOGO.jpg" alt="PAGASA Logo" class="logo-img">
+        </div>
+    </header>
+
+    <!-- Philippine Standard Time -->
+    <div class="pst-time">
+        <div class="pst-box">
+            <b>Philippine Standard Time</b>
+            <p id="time"></p>
+            <p id="date"></p>
+        </div>
+    </div>
+
+    <!-- Monthly Rainfall Analysis Title -->
+    <h2 class="monthly-title">Monthly Rainfall Analysis</h2>
+
+    <!-- Dropdown Section -->
+    <div class="rainfall-header">
+        <span class="rainfall-subtext" id="month-text">Philippine Rainfall Analysis for the Month of: January</span>
+        <select id="month-dropdown">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+        </select>
+
+        <span class="rainfall-subtext">Year:</span>
+
+        <button id="prev-year" class="year-button">
+            <img src="../Symbols/PREVIOUS.png" alt="Previous" class="button-icon">
+        </button>
+        <select id="year-dropdown"></select>
+        <button id="next-year" class="year-button">
+            <img src="../Symbols/NEXT.png" alt="Next" class="button-icon">
+        </button>
+        
+    </div>
+
+    <!-- Rainfall Summary Table -->
+    <div class="rainfall-table">
+        <div class="row">
+            <div class="title-box">Total</div>
+            <div class="title-box">Normal</div>
+            <div class="title-box">Percent Normal</div>
+        </div>
+        <div class="row">
+            <div class="image-box"><img id="total-img" src="" alt="Total"></div>
+            <div class="image-box"><img id="normal-img" src="" alt="Normal"></div>
+            <div class="image-box"><img id="percent-normal-img" src="" alt="Percent Normal"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Populate the year dropdown dynamically
+    function populateYearDropdown() {
+        let yearDropdown = document.getElementById("year-dropdown");
+        for (let year = 1950; year <= 2025; year++) {
+            let option = document.createElement("option");
+            option.value = year;
+            option.textContent = year;
+            yearDropdown.appendChild(option);
+        }
+        yearDropdown.value = "1950"; // Default selection
+    }
+
+    // Function to update month text and image sources dynamically
+    function updateMonthText() {
+        let monthDropdown = document.getElementById("month-dropdown");
+        let monthText = document.getElementById("month-text"); // Update only the text
+        let selectedMonth = monthDropdown.value;
+        let selectedYear = document.getElementById("year-dropdown").value;
+
+        if (!selectedYear || !selectedMonth) return;
+
+        monthText.textContent = `Philippine Rainfall Analysis for the Month of: ${selectedMonth}`;
+        updateImageSources(selectedYear, selectedMonth);
+    }
+
+    function updateImageSources(year, month) {
+        let monthMap = {
+            "January": "01", "February": "02", "March": "03",
+            "April": "04", "May": "05", "June": "06",
+            "July": "07", "August": "08", "September": "09",
+            "October": "10", "November": "11", "December": "12"
+        };
+
+        let monthPadded = monthMap[month];
+
+        let totalImagePath = `../DATA/MAPS_Summary/mr${year}${monthPadded}.jpg`;
+        let normalImagePath = `../DATA/MAPS_Summary/MNORM${monthPadded}.jpg`;
+        let percentNormalImagePath = `../DATA/MAPS_Summary/mp${year}${monthPadded}.jpg`;
+
+        // Debugging output
+        console.log(`Generated Total image path: ${totalImagePath}`);
+        console.log(`Generated Normal image path: ${normalImagePath}`);
+        console.log(`Generated Percent Normal image path: ${percentNormalImagePath}`);
+
+        document.getElementById("total-img").src = totalImagePath;
+        document.getElementById("normal-img").src = normalImagePath;
+        document.getElementById("percent-normal-img").src = percentNormalImagePath;
+    }
+
+    // Function to update the Philippine Standard Time (PST)
+    function updatePST() {
+        const now = new Date();
+        const pst = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Manila" }));
+
+        let hours = pst.getHours();
+        const minutes = pst.getMinutes().toString().padStart(2, "0");
+        const seconds = pst.getSeconds().toString().padStart(2, "0");
+        const ampm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12 || 12;
+
+        document.getElementById("time").textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+        document.getElementById("date").textContent = pst.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    // Initialize everything on page load
+    window.onload = function () {
+        populateYearDropdown();
+        document.getElementById("month-dropdown").value = "January";
+        document.getElementById("year-dropdown").value = "1950";
+        updateMonthText();
+        updatePST();
+        setInterval(updatePST, 1000); // Update PST every second
+    };
+
+    // Add event listeners for dropdowns
+    document.getElementById("month-dropdown").addEventListener("change", updateMonthText);
+    document.getElementById("year-dropdown").addEventListener("change", updateMonthText);
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const yearDropdown = document.getElementById("year-dropdown");
+        const nextButton = document.getElementById("next-year");
+        const prevButton = document.getElementById("prev-year");
+
+        const minYear = 1950;
+        const maxYear = 2025;
+
+        // Populate the year dropdown dynamically
+        function populateYearDropdown() {
+            for (let year = minYear; year <= maxYear; year++) {
+                let option = document.createElement("option");
+                option.value = year;
+                option.textContent = year;
+                yearDropdown.appendChild(option);
+            }
+            yearDropdown.value = maxYear; // Default to latest year
+        }
+
+        // Move to the next year (loop back to 1950 if at 2025)
+        nextButton.addEventListener("click", function () {
+            let currentYear = parseInt(yearDropdown.value);
+            if (currentYear === maxYear) {
+                yearDropdown.value = minYear; // Loop back to 1950
+            } else {
+                yearDropdown.value = currentYear + 1;
+            }
+            triggerYearChange();
+        });
+
+        // Move to the previous year (loop back to 2025 if at 1950)
+        prevButton.addEventListener("click", function () {
+            let currentYear = parseInt(yearDropdown.value);
+            if (currentYear === minYear) {
+                yearDropdown.value = maxYear; // Loop back to 2025
+            } else {
+                yearDropdown.value = currentYear - 1;
+            }
+            triggerYearChange();
+        });
+
+        // Function to trigger the year change event
+        function triggerYearChange() {
+            const event = new Event("change");
+            yearDropdown.dispatchEvent(event);
+        }
+
+        // Populate dropdown on page load
+        populateYearDropdown();
+    });
+</script>
+<script>
+    function openFullImage(imageSrc) {
+        let modal = document.createElement("div");
+        modal.classList.add("image-modal");
+
+        let fullImage = document.createElement("img");
+        fullImage.src = imageSrc;
+        fullImage.classList.add("full-view");
+
+        let closeButton = document.createElement("span");
+        closeButton.innerHTML = "&times;";
+        closeButton.classList.add("close-button");
+        closeButton.onclick = function () {
+            document.body.removeChild(modal);
+        };
+
+        modal.appendChild(fullImage);
+        modal.appendChild(closeButton);
+        document.body.appendChild(modal);
+    }
+
+    // Attach click event to images
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("total-img").addEventListener("click", function () {
+            openFullImage(this.src);
+        });
+        document.getElementById("normal-img").addEventListener("click", function () {
+            openFullImage(this.src);
+        });
+        document.getElementById("percent-normal-img").addEventListener("click", function () {
+            openFullImage(this.src);
+        });
+    });
+</script>
+
+
+
+</body>
+</html>

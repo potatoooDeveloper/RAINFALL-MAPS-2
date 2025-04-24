@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seasonal Rainfall Analysis</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="w3-sidebar">
+    <div class="sidebar-content">
+        <a href="../Saim.html" class="sidebar-item">
+            <img src="../Symbols/HOME.png" alt="Home" class="sidebar-logo">
+            <span class="sidebar-text">HOME</span>
+        </a>
+        <a href="Dashboard_Nav.html" class="sidebar-item">
+            <img src="../Symbols/DASHBOARD.png" alt="Dashboard" class="sidebar-logo">
+            <span class="sidebar-text">MILLIMETER</span>
+        </a>
+        <a href="Percentage_Nav.html" class="sidebar-item">
+            <img src="../Symbols/PERCENT.png" alt="Dashboard" class="sidebar-logo">
+            <span class="sidebar-text">PERCENTAGE</span>
+        </a>
+
+        <!-- Rainfall Summary Type -->
+        <div class="sidebar-item">
+            <img src="../Symbols/RAIN.png" alt="Rainfall Icon" class="sidebar-logo">
+            <span class="sidebar-text2">RAINFALL SUMMARY TYPE</span> 
+        </div>        
+        <div class="year-dropdown">
+            <a href="../NAV/Monthly_Nav.html" class="year-option">Monthly</a>
+            <a href="../NAV/Quarterly_Nav.html" class="year-option">Quarterly</a>
+            <a href="../NAV/Seasonal_Nav.html" class="year-option">Seasonal</a>
+            <a href="../NAV/Annual_Nav.html" class="year-option">Annual</a>
+        </div>
+    </div>
+</div>
+
+<!-- Page Content -->
+<div class="w3-main">
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="../LOGO.jpg" alt="PAGASA Logo" class="logo-img">
+        </div>
+    </header>
+
+    <!-- Philippine Standard Time -->
+    <div class="pst-time">
+        <div class="pst-box">
+            <b>Philippine Standard Time</b>
+            <p id="time"></p>
+            <p id="date"></p>
+        </div>
+    </div>
+
+    <!-- Seasonal Rainfall Analysis Title -->
+    <div class="seasonal-title">Seasonal Rainfall Analysis</div>
+
+    <!-- Dropdown Selection -->
+    <div class="rainfall-header">
+        <span id="season-text">Season 1: April to September</span>
+        <select id="season-dropdown" onchange="updateSeasonImages()">
+            <option value="01" selected>Season 1</option>
+            <option value="02">Season 2</option>
+        </select>
+
+        <span class="rainfall-title">Year:</span>
+        <button id="prev-year" class="year-button">
+            <img src="../Symbols/PREVIOUS.png" alt="Previous" class="button-icon">
+        </button>
+        <select id="year-dropdown" onchange="updateSeasonImages()">
+            <script>
+                let yearDropdown = document.getElementById("year-dropdown");
+                for (let year = 1950; year <= 2025; year++) {
+                    let option = document.createElement("option");
+                    option.value = year;
+                    option.textContent = year;
+                    yearDropdown.appendChild(option);
+                }
+            </script>
+        </select>
+        <button id="next-year" class="year-button">
+            <img src="../Symbols/NEXT.png" alt="Next" class="button-icon">
+        </button>
+    </div>
+
+    <!-- Rainfall Summary Table -->
+    <div class="rainfall-table">
+        <div class="row">
+            <div class="title-box">Total</div>
+            <div class="title-box">Normal</div>
+            <div class="title-box">Percent Normal</div>
+        </div>
+        <div class="row">
+            <div class="image-box"><img id="total-img" src="" alt="Total"></div>
+            <div class="image-box"><img id="normal-img" src="" alt="Normal"></div>
+            <div class="image-box"><img id="percent-normal-img" src="" alt="Percent Normal"></div>
+        </div>
+    </div>
+
+</div>
+
+<script src="../script.js"></script>
+<script>
+    function updateSeasonImages() {
+        let selectedYear = document.getElementById("year-dropdown").value;
+        let selectedSeason = document.getElementById("season-dropdown").value;
+        let seasonText = document.getElementById("season-text");
+
+        if (!selectedYear) return;
+
+        seasonText.innerHTML = selectedSeason === "01" ? "Season 1: April to September" : "Season 2: October to March";
+
+        let totalPath, normalPath, percentNormalPath;
+
+        // Normal image remains the same for both seasons
+        normalPath = `../DATA/MAPS_Summary/Srnorm${selectedSeason}.jpg`;
+
+        if (selectedSeason === "01") {
+            // Season 1 retrieval
+            totalPath = `../DATA/MAPS_Summary/Sr${selectedYear}01.jpg`;
+            percentNormalPath = `../DATA/MAPS_Summary/Sp${selectedYear}01.jpg`;
+        } else {
+            // Season 2 retrieval
+            let advanceYear = (parseInt(selectedYear) + 1).toString().slice(-2); // Extract last two digits
+            let currentYear = selectedYear.slice(-2);
+
+            totalPath = `../DATA/MAPS_Summary/Sr${currentYear}${advanceYear}02.jpg`;
+            percentNormalPath = `../DATA/MAPS_Summary/Sp${currentYear}${advanceYear}02.jpg`;
+        }
+
+        // Update image sources
+        document.getElementById("total-img").src = totalPath;
+        document.getElementById("normal-img").src = normalPath;
+        document.getElementById("percent-normal-img").src = percentNormalPath;
+    }
+
+    // Set default selections and load images on page load
+    window.onload = function() {
+        document.getElementById("year-dropdown").value = "1950";
+        document.getElementById("season-dropdown").value = "01";
+        updateSeasonImages();
+    };
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const yearDropdown = document.getElementById("year-dropdown");
+        const nextButton = document.getElementById("next-year");
+        const prevButton = document.getElementById("prev-year");
+
+        const minYear = 1950;
+        const maxYear = 2025;
+
+        // Populate the year dropdown dynamically
+        function populateYearDropdown() {
+            for (let year = minYear; year <= maxYear; year++) {
+                let option = document.createElement("option");
+                option.value = year;
+                option.textContent = year;
+                yearDropdown.appendChild(option);
+            }
+            yearDropdown.value = maxYear; // Default to latest year
+        }
+
+        // Move to the next year (loop back to 1950 if at 2025)
+        nextButton.addEventListener("click", function () {
+            let currentYear = parseInt(yearDropdown.value);
+            if (currentYear === maxYear) {
+                yearDropdown.value = minYear; // Loop back to 1950
+            } else {
+                yearDropdown.value = currentYear + 1;
+            }
+            triggerYearChange();
+        });
+
+        // Move to the previous year (loop back to 2025 if at 1950)
+        prevButton.addEventListener("click", function () {
+            let currentYear = parseInt(yearDropdown.value);
+            if (currentYear === minYear) {
+                yearDropdown.value = maxYear; // Loop back to 2025
+            } else {
+                yearDropdown.value = currentYear - 1;
+            }
+            triggerYearChange();
+        });
+
+        // Function to trigger the year change event
+        function triggerYearChange() {
+            const event = new Event("change");
+            yearDropdown.dispatchEvent(event);
+        }
+
+        // Populate dropdown on page load
+        populateYearDropdown();
+    });
+</script>
+<script>
+    function openFullImage(imageSrc) {
+        let modal = document.createElement("div");
+        modal.classList.add("image-modal");
+
+        let fullImage = document.createElement("img");
+        fullImage.src = imageSrc;
+        fullImage.classList.add("full-view");
+
+        let closeButton = document.createElement("span");
+        closeButton.innerHTML = "&times;";
+        closeButton.classList.add("close-button");
+        closeButton.onclick = function () {
+            document.body.removeChild(modal);
+        };
+
+        modal.appendChild(fullImage);
+        modal.appendChild(closeButton);
+        document.body.appendChild(modal);
+    }
+
+    // Attach click event to images
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("total-img").addEventListener("click", function () {
+            openFullImage(this.src);
+        });
+        document.getElementById("normal-img").addEventListener("click", function () {
+            openFullImage(this.src);
+        });
+        document.getElementById("percent-normal-img").addEventListener("click", function () {
+            openFullImage(this.src);
+        });
+    });
+</script>
+
+</body>
+</html>
